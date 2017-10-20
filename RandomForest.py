@@ -8,7 +8,6 @@ from scipy import stats
 
 class RandomForest(object):
     #faster than sklearn
-
     def __init__(self, learner=rt.RandomTree, kwargs = {"leaf_size":1}, bags = 20, boost = False, verbose = False):
         self.learner=learner
         self.leaf_size=kwargs["leaf_size"]
@@ -16,7 +15,6 @@ class RandomForest(object):
         self.boost=boost
         self.verbose=verbose
         self.treelist=[]#use list to store trees
-
 
     def addEvidence(self,dataX,dataY):
         """
@@ -27,8 +25,6 @@ class RandomForest(object):
         leaf_size=int(self.leaf_size)
         datanum = int(dataX.shape[0])  # how many data points
         featurenum = int(dataX.shape[1])  # how many features does each data point have
-        ######SLOW
-
         for iter in range(int(1),int(self.bags+1)):
             randidx=np.random.choice(datanum,int(datanum/2),replace=True)
             x=np.take(dataX,randidx,axis=0)
@@ -36,7 +32,6 @@ class RandomForest(object):
             newlearner=self.learner(leaf_size, verbose = False)
             newlearner.addEvidence(x, y)
             self.treelist.append(newlearner)
-
         
     def query(self,points):
         """
@@ -52,4 +47,3 @@ class RandomForest(object):
         y=y.reshape((int(self.bags)+1,rowrange));
         yy=np.array(stats.mode(y)[0]).reshape(rowrange);
         return yy
-
