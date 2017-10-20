@@ -6,7 +6,6 @@ import numpy as np
 from scipy import stats
 import math
 
-
 def genData(k=10, file="./data.csv", writeToFile=True):
     '''
     :param k: number of folds, fedault 10
@@ -27,17 +26,14 @@ def genData(k=10, file="./data.csv", writeToFile=True):
     # start, i=1
     test.append(data[0:k_length])
     train.append(data[k_length:])
-
     # middle, i=2~(k-1)
     for i in range(2, k):
         test.append(data[(i - 1) * k_length:i * k_length])
         train.append(np.append(data[:(i - 1) * k_length], data[i * k_length:], axis=0))
         pass
-
     # end, i=k
     test.append(data[(k - 1) * k_length:])
     train.append(data[:(k - 1) * k_length])
-
     if writeToFile:
         for i in range(1, k + 1):
             print "writing the file for " + str(i) + "-th cross validation"
@@ -46,11 +42,8 @@ def genData(k=10, file="./data.csv", writeToFile=True):
                 np.savetxt(str(i)+"test.csv", test[i-1], delimiter=",")
             except:
                 print "exception when writing the file for " + str(i) + "-th cross-validation"
-
             pass
-
     return train, test
-
 
 if __name__ == "__main__":
     train, test = genData(10)
